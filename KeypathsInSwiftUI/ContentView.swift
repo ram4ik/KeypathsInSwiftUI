@@ -28,7 +28,7 @@ extension Array where Element == MyDataModel {
 //    }
     
     
-    func customSorted(keyPath: KeyPath<MyDataModel, Int>) -> [Element] {
+    func customSorted<T: Comparable>(keyPath: KeyPath<MyDataModel, T>) -> [Element] {
          self.sorted { item1, item2 in
             return item1[keyPath: keyPath] < item2[keyPath: keyPath]
         }
@@ -74,7 +74,8 @@ struct ContentView: View {
                 
                 //let newArray = array.customSorted()
                 
-                let newArray = array.customSorted(keyPath: \.count)
+                //let newArray = array.customSorted(keyPath: \.count)
+                let newArray = array.customSorted(keyPath: \.date)
                 
                 dataArray = newArray
                 
