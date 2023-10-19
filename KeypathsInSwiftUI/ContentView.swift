@@ -19,6 +19,23 @@ struct MyDataModel: Identifiable {
 //    let secondary: String
 //}
 
+extension Array where Element == MyDataModel {
+    
+//    func customSorted() -> [MyDataModel] {
+//         self.sorted { item1, item2 in
+//            return item1.count < item2.count
+//        }
+//    }
+    
+    
+    func customSorted(keyPath: KeyPath<MyDataModel, Int>) -> [Element] {
+         self.sorted { item1, item2 in
+            return item1[keyPath: keyPath] < item2[keyPath: keyPath]
+        }
+    }
+    
+}
+
 struct ContentView: View {
     
     //@Environment(\.dismiss) var dismiss
@@ -51,11 +68,15 @@ struct ContentView: View {
                 //    return item1.count < item2.count
                 //}
                 
-                let newArray = array.sorted { item1, item2 in
-                    return item1[keyPath: \.count] < item2[keyPath: \.count]
-                }
+                //let newArray = array.sorted { item1, item2 in
+                //    return item1[keyPath: \.count] < item2[keyPath: \.count]
+                //}
                 
-                dataArray = array
+                //let newArray = array.customSorted()
+                
+                let newArray = array.customSorted(keyPath: \.count)
+                
+                dataArray = newArray
                 
                 //let item = MyDataModel(title: "One", count: 1, date: .now)
                 
