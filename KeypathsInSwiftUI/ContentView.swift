@@ -34,6 +34,15 @@ extension Array where Element == MyDataModel {
 //        }
 //    }
     
+    mutating func sortByKeyPath<T: Comparable>(_ keyPath: KeyPath<Element, T>, assending: Bool = true) {
+         self.sort { item1, item2 in
+             let value1 = item1[keyPath: keyPath]
+             let value2 = item2[keyPath: keyPath]
+             
+             return  assending ? (value1 > value2) : (value1 < value2)
+        }
+    }
+    
     func sortedByKeyPath<T: Comparable>(_ keyPath: KeyPath<Element, T>, assending: Bool = true) -> [Element] {
          self.sorted { item1, item2 in
              let value1 = item1[keyPath: keyPath]
@@ -67,7 +76,7 @@ struct ContentView: View {
             }
         }
             .onAppear() {
-                let array = [
+                var array = [
                     MyDataModel(title: "One", count: 1, date: .now),
                     MyDataModel(title: "Two", count: 2, date: .distantFuture),
                     MyDataModel(title: "Three", count: 3, date: .distantPast),
@@ -87,7 +96,7 @@ struct ContentView: View {
                 //let newArray = array.customSorted(keyPath: \.date)
                 //let newArray = array.sortedByKeyPath(\.count)
                 let newArray = array.sortedByKeyPath(\.count, assending: false)
-                
+                array.sortByKeyPath(\.title)
                 dataArray = newArray
                 
                 //let item = MyDataModel(title: "One", count: 1, date: .now)
